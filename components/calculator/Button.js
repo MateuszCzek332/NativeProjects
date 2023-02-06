@@ -1,11 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function App() {
+export default function Button(props) {
   return (
     <View style={styles.container}>
-      <Text>Choose the project by going to node_modules/expo/AppEntry.js</Text>
-      <StatusBar style="auto" />
+        <Text>{ props.content }</Text>
     </View>
   );
 }
