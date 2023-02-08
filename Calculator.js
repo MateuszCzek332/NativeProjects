@@ -48,6 +48,8 @@ export default function App() {
      use:'e'}],
   ]
 
+  const operators = ['+', '-', '/', '*']
+
   let [val, setVal] = useState('');
 
   let write = (c) => {
@@ -63,18 +65,43 @@ export default function App() {
   }
 
   let getPercentage = () => {
+    if(val == '')
+      return
     setVal(eval(val)/100  )
   }
 
   let equal = () => {
-    setVal(eval(val))
+    if(!operators.includes(val.charAt(val.length-1)))
+      setVal( eval(val).toString())
   }
 
   let addOperator = (c) => {
+
+    if(val == '')
+      return
+
+    if(operators.includes(val[val.length-1])){
+      let w = val
+      w = w.slice(0, w.length -1)
+      w+=c
+      setVal(w)
+      return
+    }
     setVal(val += c)
   }
 
   let addDot = (c) => {
+
+    let i = val.length-1
+
+    while(i>=0){
+      if(operators.includes(val[i]))
+        break;
+      if(val[i] == c)
+        return;
+      i--
+    }
+
     setVal(val += c)
   }
 
@@ -83,7 +110,8 @@ export default function App() {
 
       <View style={{
         flex:2,
-        justifyContent:'center'
+        justifyContent:'center',
+        backgroundColor: 'blue'
         }}>
           <Text style={{
             textAlign:'right',
@@ -95,7 +123,7 @@ export default function App() {
       </View>
       <View style={{
         flex:4,
-        backgroundColor:'blue',
+
       }}>
         {
           tab.map((el, i) => {
@@ -107,21 +135,21 @@ export default function App() {
                 el.map((elm, i) => {
                   switch(elm.use){
                     case 'w':
-                      return <Button  content={elm.val} f={ () => write(elm.val)}/>
+                      return <Button key={i} content={elm.val} f={ () => write(elm.val)}/>
                     case 'c':
-                      return <Button  content={elm.val} f={ () => clear()}/>
+                      return <Button key={i} content={elm.val} f={ () => clear()}/>
                     case 'b':
-                      return <Button  content={elm.val} f={ () => back()}/>
+                      return <Button key={i} content={elm.val} f={ () => back()}/>
                     case 'p':
-                      return <Button  content={elm.val} f={ () => getPercentage()}/>
+                      return <Button key={i} content={elm.val} f={ () => getPercentage()}/>
                     case 'e':
-                      return <Button  content={elm.val} f={ () => equal()}/>
+                      return <Button key={i} content={elm.val} f={ () => equal()}/>
                     case 'o':
-                      return <Button  content={elm.val} f={ () => addOperator(elm.val)}/>
+                      return <Button key={i} content={elm.val} f={ () => addOperator(elm.val)}/>
                     case 'd':
-                      return <Button  content={elm.val} f={ () => addDot(elm.val)}/>
+                      return <Button key={i} content={elm.val} f={ () => addDot(elm.val)}/>
                     default:
-                      return <Button  content={elm.val} f={ () => {}}/>
+                      return <Button key={i} content={elm.val} f={ () => {}}/>
 
                   }
                 })
@@ -138,6 +166,5 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'blue',
   },
 });
