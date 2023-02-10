@@ -13,11 +13,14 @@ export default function LoginScreen({ navigation }) {
   let [log, setlog] = useState('');
   let [pass, setPass] = useState('');
   let login = async () => {
-
     let user = await checkUser(log, pass)
-    console.log(user)
-    if (user != null)
-      navigation.navigate('profilScreen', user)
+    // console.log(user)
+    if (user == null) {
+      alert('Błędny login i/lub hasło')
+      return
+    }
+
+    navigation.navigate('profilScreen', user)
   }
 
   let checkUser = async (login, pass) => {
