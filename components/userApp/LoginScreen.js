@@ -10,8 +10,8 @@ import Header from './Header';
 import Button from './Button';
 
 export default function LoginScreen({ navigation }) {
-  let [log, setlog] = useState('');
-  let [pass, setPass] = useState('');
+  let [log, setlog] = useState('admin');
+  let [pass, setPass] = useState('1234');
   let login = async () => {
     let user = await checkUser(log, pass)
     // console.log(user)

@@ -4,16 +4,16 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function Header() {
   return (
     <View style={{
-      flex:1,
-      justifyContent:'center',
+      height: 60,
+      justifyContent: 'center',
       backgroundColor: 'green'
+    }}>
+      <Text style={{
+        textAlign: 'center',
+        fontSize: 22,
       }}>
-        <Text style={{
-          textAlign:'center',
-          fontSize:22,
-        }}>
         USER APP
-        </Text>
+      </Text>
     </View>
   );
 }
