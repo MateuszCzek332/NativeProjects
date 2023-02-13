@@ -5,13 +5,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
-import Header from './Header';
 import Button from './Button';
 
 export default function LoginScreen({ navigation }) {
-  let [log, setlog] = useState('admin');
-  let [pass, setPass] = useState('1234');
+  let [log, setlog] = useState('');
+  let [pass, setPass] = useState('');
   let login = async () => {
     let user = await checkUser(log, pass)
     // console.log(user)
@@ -40,23 +38,10 @@ export default function LoginScreen({ navigation }) {
     return user;
   }
 
-  useEffect(() => {
-    createAdmin()
-  });
-
-  let createAdmin = async () => {
-    let obj = {
-      pass: '1234',
-      acces: 'admin'
-    }
-    await AsyncStorage.setItem('admin', JSON.stringify(obj))
-  }
-
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}>
-      <Header />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.content}>
           <Text style={styles.h1}>LOGOWANIE</Text>

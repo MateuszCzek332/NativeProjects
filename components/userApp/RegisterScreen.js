@@ -5,8 +5,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
-import Header from './Header';
 import Button from './Button';
 
 export default function LoginScreen({ navigation }) {
@@ -41,7 +39,6 @@ export default function LoginScreen({ navigation }) {
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}>
-      <Header />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.content}>
           <Text style={styles.h1}>REJESTRACJA</Text>

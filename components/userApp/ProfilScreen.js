@@ -6,9 +6,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Button from './Button';
-import Header from './Header';
-import LoginScreen from './LoginScreen';
-import { Touchable } from 'react-native-web';
 
 export default function ProfilScreen({ route, navigation }) {
 
@@ -59,7 +56,6 @@ export default function ProfilScreen({ route, navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header />
       {acces == 'admin' ?
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>

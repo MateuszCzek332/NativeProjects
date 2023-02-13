@@ -7,9 +7,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import SelectDropdown from 'react-native-select-dropdown'
 
 import Button from './Button';
-import Header from './Header';
-import LoginScreen from './LoginScreen';
-import { Touchable } from 'react-native-web';
 
 export default function ProfilScreen({ route, navigation: { goBack } }) {
 
@@ -47,8 +44,6 @@ export default function ProfilScreen({ route, navigation: { goBack } }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header />
-
       <ScrollView style={{
         flexGrow: 6
       }}>
