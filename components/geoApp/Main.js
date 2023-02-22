@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, StatusBar, KeyboardAvoidingView, TextInput, Touchable, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ActivityIndicator } from 'react-native';
 import * as Font from "expo-font";
 
 export default class Main extends Component {
@@ -30,7 +29,7 @@ export default class Main extends Component {
             ?
             <View style={{ flex: 1, justifyContent: 'center', backgroundColor: 'blue' }}>
               <TouchableOpacity
-                onPress={() => { this.props.navigation.navigate("list") }}
+                onPress={() => { this.props.navigation.navigate("listScreen") }}
               ><Text style={{
                 fontFamily: 'myfont',
                 fontSize: 80,
