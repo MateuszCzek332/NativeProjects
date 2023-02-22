@@ -2,9 +2,9 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import MainScreen from "../components/geoApp/Main"
-import ListScreen from "../components/geoApp/List"
-import MapScreen from "../components/geoApp/Map"
+import MainScreen from "../components/geoApp/MainScreen"
+import ListScreen from "../components/geoApp/ListScreen"
+import MapScreen from "../components/geoApp/MapScreen"
 
 const Stack = createNativeStackNavigator();
 
