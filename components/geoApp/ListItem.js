@@ -7,10 +7,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ListItem(props) {
 
-  useEffect(() => {
-
-  });
-
   return (
     <View style={styles.container}>
       <Image
@@ -31,7 +27,9 @@ export default function ListItem(props) {
         </View>
       </View>
       <View style={styles.buttons}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => props.del()}
+        >
           <Image
             source={require('./del.png')}
             style={styles.delIcon} />

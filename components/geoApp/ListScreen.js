@@ -12,17 +12,6 @@ export default function List({ route, navigation }) {
 
   let [tab, setTab] = useState([]);
 
-  let getPosition = async () => {
-    let pos = await Location.getCurrentPositionAsync({})
-    alert(JSON.stringify(pos, null, 4))
-    await AsyncStorage.setItem('geo' + pos.timestamp, JSON.stringify(pos));
-  }
-
-  useEffect(() => {
-    Location.requestForegroundPermissionsAsync();
-    createList()
-  });
-
   let createList = async () => {
     let keys = await AsyncStorage.getAllKeys();
     let stores = await AsyncStorage.multiGet(keys);
@@ -33,21 +22,69 @@ export default function List({ route, navigation }) {
         return JSON.parse(value)
       return null
     }).filter(el => el != null);
-    setTab(maps)
-    // console.log(maps)
+    console.log(maps)
+    return maps
+  }
+
+  useEffect(() => {
+    Location.requestForegroundPermissionsAsync();
+    const f = async () => {
+      const tab = await createList()
+      setTab(tab)
+    };
+    f();
+
+  }, []);
+
+  let getPosition = async () => {
+    let pos = await Location.getCurrentPositionAsync({})
+    if (tab.length == 0 || tab[tab.length - 1].timestamp != pos.timestamp) {
+      alert(JSON.stringify(pos, null, 4))
+      setTab([...tab, pos])
+      await AsyncStorage.setItem('geo' + pos.timestamp, JSON.stringify(pos));
+    }
+  }
+
+  let delPosition = async (time) => {
+    await AsyncStorage.removeItem('geo' + time);
+    let t = tab
+    for (let i = 0; i < t.length; i++) {
+      if (t[i].timestamp == time) {
+        t.splice(i, 1)
+        break;
+      }
+    }
+    setTab([...t])
+  }
+
+  let delAll = async () => {
+    for (let i = 0; i < tab.length; i++) {
+      await delPosition(tab[i].timestamp)
+    }
+    setTab([])
   }
 
   return (
     <View>
-      <View>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
         <MyButton content="Add Current Location" f={() => getPosition()} />
+        <MyButton content="Delete All" f={() => delAll()} />
       </View>
-      <Text>LISTA</Text>
-      <FlatList
-        data={tab}
-        renderItem={({ item }) => <ListItem item={item} />}
-        keyExtractor={item => item.timestamp}
-      />
+      <Text>LISTA </Text>
+      {
+        !tab ?
+          null
+          :
+          <FlatList
+            data={tab}
+            renderItem={({ item }) => <ListItem item={item} del={() => delPosition(item.timestamp)} />}
+            keyExtractor={item => item.timestamp}
+          />
+        // tab.map((item, i) => {
+        //   return <ListItem key={i} item={item} del={() => delPosition(item.timestamp)} />
+        // })
+      }
+
     </View>
   );
 }

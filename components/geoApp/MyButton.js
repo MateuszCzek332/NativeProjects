@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     padding: 10,
-    margin: 30,
+    margin: 10,
     borderRadius: 20
   },
 });
