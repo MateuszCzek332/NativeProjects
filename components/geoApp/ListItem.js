@@ -34,7 +34,13 @@ export default function ListItem(props) {
             source={require('./del.png')}
             style={styles.delIcon} />
         </TouchableOpacity>
-        <Switch />
+        <Switch
+          trackColor={{ false: '#767577', true: '#81b0ff' }}
+          thumbColor={props.item.isEnabled ? '#f5dd4b' : '#f4f3f4'}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={() => props.toogle()}
+          value={props.item.isEnabled}
+        />
       </View>
     </View>
   )
