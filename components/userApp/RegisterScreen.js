@@ -10,6 +10,7 @@ import Button from './Button';
 export default function LoginScreen({ navigation }) {
   let [log, setlog] = useState('');
   let [pass, setPass] = useState('');
+
   let addUser = async () => {
 
     if (log == '' || pass == '') {
@@ -18,18 +19,19 @@ export default function LoginScreen({ navigation }) {
     }
 
     let keys = await AsyncStorage.getAllKeys();
-    console.log(keys)
 
-    if (keys.includes(log)) {
+    if (keys.includes("UserApp" + log)) {
       alert('Taki użytkownik już istnieje')
       return
     }
 
     let obj = {
+      login: log,
       pass: pass,
       acces: 'user'
     }
-    await AsyncStorage.setItem(log, JSON.stringify(obj))
+
+    await AsyncStorage.setItem("UserApp" + log, JSON.stringify(obj))
     keys = await AsyncStorage.getAllKeys();
     console.log(keys)
     return

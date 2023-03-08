@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import Button from './Button';
 
 export default function ProfilScreen({ route, navigation }) {
@@ -23,7 +22,7 @@ export default function ProfilScreen({ route, navigation }) {
       let maps = stores.map((result, i, store) => {
         let key = store[i][0];
         let value = JSON.parse(store[i][1]);
-        return { login: key, pass: value.pass, acces: value.acces }
+        return { login: value.login, pass: value.pass, acces: value.acces }
       });
       // console.log(maps)
       setTab(maps)
@@ -41,16 +40,16 @@ export default function ProfilScreen({ route, navigation }) {
     setPassword(newPass)
 
     let obj = {
+      login: login,
       pass: newPass,
       acces: acces
     }
 
-    await AsyncStorage.removeItem(login)
-    await AsyncStorage.setItem(login, JSON.stringify(obj))
+    await AsyncStorage.mergeItem("UserApp" + login, JSON.stringify(obj))
   }
 
   let deleteUser = async () => {
-    await AsyncStorage.removeItem(login)
+    await AsyncStorage.removeItem("UserApp" + login)
     navigation.navigate('loginScreen')
   }
 

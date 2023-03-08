@@ -20,10 +20,16 @@ export default function MainScreen({ navigation }) {
 
     async function createAdmin() {
       let obj = {
+        login: 'Admin',
         pass: '1234',
         acces: 'admin'
       }
-      await AsyncStorage.setItem('admin', JSON.stringify(obj))
+
+      keys = await AsyncStorage.getAllKeys();
+      // await AsyncStorage.clear()
+      if (!keys.includes("UserAppAdmin"))
+        await AsyncStorage.setItem('UserAppAdmin', JSON.stringify(obj))
+      console.log(keys)
     }
 
     createAdmin()
@@ -42,7 +48,7 @@ export default function MainScreen({ navigation }) {
             </TouchableOpacity>
             <Text style={styles.text}>Basic user management</Text>
             <Text style={styles.text}>Admin Log:admin</Text>
-            <Text style={styles.text}>Admin Log:1234</Text>
+            <Text style={styles.text}>Admin Pass:1234</Text>
           </View>
           :
           null

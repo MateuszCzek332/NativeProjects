@@ -10,6 +10,7 @@ import Button from './Button';
 export default function LoginScreen({ navigation }) {
   let [log, setlog] = useState('');
   let [pass, setPass] = useState('');
+
   let login = async () => {
     let user = await checkUser(log, pass)
     // console.log(user)
@@ -27,13 +28,15 @@ export default function LoginScreen({ navigation }) {
     let user = null
     let maps = await stores.map((result, i, store) => {
       let key = store[i][0];
-      let value = JSON.parse(store[i][1]);
-      if (login == key && pass == value.pass)
-        user = {
-          login: key,
-          pass: value.pass,
-          acces: value.acces
-        }
+      if (key.startsWith('UserApp')) {
+        let value = JSON.parse(store[i][1]);
+        if (login == value.login && pass == value.pass)
+          user = {
+            login: value.login,
+            pass: value.pass,
+            acces: value.acces
+          }
+      }
     });
     return user;
   }

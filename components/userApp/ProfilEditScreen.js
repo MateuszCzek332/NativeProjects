@@ -22,23 +22,24 @@ export default function ProfilScreen({ route, navigation: { goBack } }) {
     }
 
     let keys = await AsyncStorage.getAllKeys();
-    if (keys.includes(log)) {
+    if (keys.includes("UserApp" + log) && log != login) {
       alert('Taki użytkownik już istnieje')
       return
     }
 
     let obj = {
+      login: log,
       pass: password,
       acces: acc
     }
-
-    await AsyncStorage.removeItem(login)
-    await AsyncStorage.setItem(log, JSON.stringify(obj))
+    await AsyncStorage.mergeItem("UserApp" + login, JSON.stringify(obj))
+    // await AsyncStorage.removeItem(login)
+    // await AsyncStorage.setItem(log, JSON.stringify(obj))
     goBack()
   }
 
   let deleteUser = async () => {
-    await AsyncStorage.removeItem(login)
+    await AsyncStorage.removeItem("UserApp" + login)
     goBack()
   }
 
@@ -66,16 +67,16 @@ export default function ProfilScreen({ route, navigation: { goBack } }) {
           onSelect={(selectedItem, index) => {
             setAcc(selectedItem)
           }}
-          buttonTextAfterSelection={(selectedItem, index) => {
-            // text represented after item is selected
-            // if data array is an array of objects then return selectedItem.property to render after item is selected
-            return selectedItem
-          }}
-          rowTextForSelection={(item, index) => {
-            // text represented for each item in dropdown
-            // if data array is an array of objects then return item.property to represent item in dropdown
-            return item
-          }}
+        // buttonTextAfterSelection={(selectedItem, index) => {
+        //   // text represented after item is selected
+        //   // if data array is an array of objects then return selectedItem.property to render after item is selected
+        //   return selectedItem
+        // }}
+        // rowTextForSelection={(item, index) => {
+        //   // text represented for each item in dropdown
+        //   // if data array is an array of objects then return item.property to represent item in dropdown
+        //   return item
+        // }}
         />
 
         <Button content='Save' f={() => changeData()} />
