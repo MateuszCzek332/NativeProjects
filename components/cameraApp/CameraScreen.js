@@ -2,11 +2,6 @@ import { StyleSheet, Text, View, FlatList, Switch } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as Location from "expo-location";
-
-import MyButton from './MyButton';
-import FotoItem from './FotoItem';
 
 export default function CameraScreen({ navigation }) {
 

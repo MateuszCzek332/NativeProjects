@@ -1,44 +1,52 @@
-import { StyleSheet, Text, View, FlatList, Switch } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as Location from "expo-location";
+import * as MediaLibrary from "expo-media-library";
 
 import MyButton from './MyButton';
 import FotoItem from './FotoItem';
 
+
 export default function GalleryScreen({ navigation }) {
 
-  // let [tab, setTab] = useState([]);
-
-  let createList = async () => {
-    // let keys = await AsyncStorage.getAllKeys();
-    // let stores = await AsyncStorage.multiGet(keys);
-    // let maps = stores.map((result, i, store) => {
-    //   let key = store[i][0];
-    //   let value = store[i][1];
-    //   if (key.startsWith('geo'))
-    //     return JSON.parse(value)
-    //   return null
-    // }).filter(el => el != null);
-    // console.log(maps)
-    // return maps
-  }
+  let [tab, setTab] = useState([]);
 
   useEffect(() => {
-    // const f = async () => {
-    //   const tab = await createList()
-    //   for (let i = 0; i < tab.length; i++)
-    //     tab[i].isEnabled = false;
-    //   setTab(tab)
-    // };
-    // f();
 
+    async function getTab() {
+      let { status } = await MediaLibrary.requestPermissionsAsync();
+      if (status !== 'granted') {
+        alert('brak uprawnień do czytania image-ów z galerii')
+      }
+
+      const album = await MediaLibrary.getAlbumAsync("DCIM")
+      const photos = await MediaLibrary.getAssetsAsync({
+        album: album,
+        first: 20,
+        mediaType: ['photo']
+      })
+
+      setTab(photos.assets)
+    }
+    getTab()
   }, []);
 
   return (
-    <Text>Gallery</Text>
+    <View>
+      <MyButton styles={{ backgroundColor: "red" }} text={"camera"} f={() => navigation.navigate("cameraScreen")} />
+      <ScrollView>
+        {
+          !tab ?
+            null
+            :
+            tab.map((el, i) => {
+              return <FotoItem key={i} item={el} />
+            })
+        }
+      </ScrollView>
+    </View>
+
     // <View>
     //   <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
     //     <MyButton content="Add Current Location" f={() => getPosition()} />

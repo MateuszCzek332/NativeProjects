@@ -1,48 +1,29 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, Image, View, TouchableOpacity, Switch } from 'react-native';
+import { StyleSheet, Text, Image, View, TouchableOpacity, ImageBackground } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function FotoItem(props) {
-
   return (
-    <View style={styles.container}>
-      <Image
-        // source={require('./icon.png')}
-        style={styles.icon} />
-      <View style={styles.info}>
-        <View style={{ flex: 1, }} >
-          <Text style={{ fontWeight: 'bold', color: 'blue', textAlign: 'center' }} >TIMESTAMP</Text>
-          <Text style={{ textAlign: 'center' }}>{new Date(props.item.timestamp).toLocaleDateString() + ' ' + new Date(props.item.timestamp).toLocaleTimeString()}</Text>
-        </View>
-        <View style={{ flex: 1, flexDirection: 'row' }} >
-          <Text style={{ color: 'blue' }} >Latitude: </Text>
-          <Text>{props.item.coords.latitude}</Text>
-        </View>
-        <View style={{ flex: 1, flexDirection: 'row' }} >
-          <Text style={{ color: 'blue' }} >Longitude: </Text>
-          <Text>{props.item.coords.longitude}</Text>
-        </View>
-      </View>
-      <View style={styles.buttons}>
-        <TouchableOpacity
-          onPress={() => props.del()}
-        >
-          <Image
-            // source={require('./del.png')}
-            style={styles.delIcon} />
-        </TouchableOpacity>
-        <Switch
-          trackColor={{ false: '#767577', true: '#81b0ff' }}
-          thumbColor={props.item.isEnabled ? '#f5dd4b' : '#f4f3f4'}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={() => props.toogle()}
-          value={props.item.isEnabled}
-        />
-      </View>
-    </View>
+    <View>
+      <Text> {props.item.filename} </Text>
+      <ImageBackground
+        style={{
+          width: 300,
+          height: 100,
+          justifyContent: 'flex-end',
+          alignItems: 'flex-end'
+        }}
+
+        source={{ uri: props.item.uri }}
+      >
+        {/* {
+                        this.state.selected ? <Text style={{ fontSize: 50, color: 'red' }}>+</Text> : null
+                    } */}
+        {/* <Text style={styles.imageText}>{this.props.item.id}</Text> */}
+      </ImageBackground>
+    </View >
   )
 
 }
