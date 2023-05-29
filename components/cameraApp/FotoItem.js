@@ -7,11 +7,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 export default function FotoItem(props) {
   return (
     <View>
-      <Text> {props.item.filename} </Text>
       <ImageBackground
         style={{
-          width: 300,
-          height: 100,
+          width: props.width,
+          height: props.height,
           justifyContent: 'flex-end',
           alignItems: 'flex-end'
         }}
