@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MainScreen from "../components/cameraApp/MainScreen"
 import GalleryScreen from "../components/cameraApp/GalleryScreen"
 import CameraScreen from "../components/cameraApp/CameraScreen"
+import BigPhoto from "../components/cameraApp/BigPhoto"
 
 const Stack = createNativeStackNavigator();
 
@@ -15,6 +16,7 @@ function App() {
         <Stack.Screen name="mainScreen" component={MainScreen} options={headerStyles.main} />
         <Stack.Screen name="galleryScreen" component={GalleryScreen} options={headerStyles.other} />
         <Stack.Screen name="cameraScreen" component={CameraScreen} options={headerStyles.other} />
+        <Stack.Screen name="bigPhoto" component={BigPhoto} options={headerStyles.other} />
       </Stack.Navigator>
     </NavigationContainer>
   );

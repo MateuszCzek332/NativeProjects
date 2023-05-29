@@ -1,54 +1,42 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, Image, View, TouchableOpacity, ImageBackground } from 'react-native';
+import { StyleSheet, Text, Image, View, TouchableHighlight, ImageBackground } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 export default function FotoItem(props) {
+
+  let [selected, setSelected] = useState(false);
+
+  let onHold = () => {
+    props.onHold(selected, props.item.id)
+    setSelected(!selected)
+  }
+
   return (
-    <View>
+    <TouchableHighlight
+      onLongPress={() => onHold()}
+      onPress={() => props.onClick()}
+    >
       <ImageBackground
         style={{
           width: props.width,
           height: props.height,
-          justifyContent: 'flex-end',
-          alignItems: 'flex-end'
+          justifyContent: 'center',
+          alignItems: 'center'
         }}
 
         source={{ uri: props.item.uri }}
       >
-        {/* {
-                        this.state.selected ? <Text style={{ fontSize: 50, color: 'red' }}>+</Text> : null
-                    } */}
-        {/* <Text style={styles.imageText}>{this.props.item.id}</Text> */}
+        {
+          selected ?
+            <Text style={{ color: 'red', fontSize: 60 }} >X</Text>
+            :
+            null
+        }
+
       </ImageBackground>
-    </View >
+    </TouchableHighlight >
   )
 
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 5,
-    flexDirection: 'row',
-  },
-  info: {
-    flex: 6,
-  },
-  buttons: {
-    flex: 3,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-  },
-  icon: {
-    width: 65,
-    height: 65,
-    margin: 10,
-  },
-  delIcon: {
-    width: 40,
-    height: 40,
-  },
-});
