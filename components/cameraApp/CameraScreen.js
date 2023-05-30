@@ -6,6 +6,7 @@ import { Dimensions } from "react-native";
 import { Animated } from "react-native";
 
 import CircleButton from './CircleButton';
+import RadioGroup from './RadioGroup';
 
 export default function CameraScreen({ route, navigation }) {
 
@@ -13,9 +14,61 @@ export default function CameraScreen({ route, navigation }) {
   let camera;
   let [hasCameraPermission, setHasCameraPermission] = useState(null);
   let [type, setType] = useState(Camera.Constants.Type.back);
+  let [animation, setanimation] = useState({
+    isHidden: true,
+    pos: new Animated.Value(-300),
+  })
+  let [ratio, setRatio] = useState("4:3")
+  let [ratios, setRatios] = useState(["4:3", "16:9"])
+  let [wb, setWb] = useState(0)
+  let [wbArr, setWbArr] = useState([])
+  let [fm, setFm] = useState(0)
+  let [fmArr, setFmArr] = useState([])
+  let [sizeArr, setSizeArr] = useState([])
+  let [size, setSize] = useState('')
+
+
+  let getSize = async (ratio) => {
+    if (camera) {
+      sizeArr = await camera.getAvailablePictureSizesAsync(ratio)
+      setSizeArr(sizeArr)
+      size = sizeArr[sizeArr.length - 1]
+      setSize(size)
+    }
+  }
+
+  let onCameraReady = async () => {
+    wbArr = Object.keys(Camera.Constants.WhiteBalance)
+    setWbArr(wbArr)
+    fmArr = Object.keys(Camera.Constants.FlashMode)
+    setFmArr(fmArr)
+    getSize(ratio)
+  }
+
+  let toggle = () => {
+
+    let toPos;
+    animation.isHidden ? toPos = 0 : toPos = -300;
+
+    //animacja
+
+    Animated.spring(
+      animation.pos,
+      {
+        toValue: toPos,
+        velocity: 1,
+        tension: 0,
+        friction: 10,
+        useNativeDriver: true
+      }
+    ).start();
+
+    animation.isHidden = !animation.isHidden
+  }
 
   useEffect(() => {
     getPermission()
+    getSize()
   }, []);
 
   let getPermission = async () => {
@@ -30,7 +83,7 @@ export default function CameraScreen({ route, navigation }) {
   let makePhoto = async () => {
 
     let foto = await camera.takePictureAsync();
-    let asset = await MediaLibrary.createAssetAsync(foto.uri); // domyślnie zapisuje w folderze DCIM
+    await MediaLibrary.createAssetAsync(foto.uri); // domyślnie zapisuje w folderze DCIM
     refresh()
     //alert(JSON.stringify(asset, null, 4))
   }
@@ -41,18 +94,58 @@ export default function CameraScreen({ route, navigation }) {
         hasCameraPermission == null || !hasCameraPermission ?
           <Text>brak dostępu do kamery</Text>
           :
-          <Camera type={type} style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}
-            ref={ref => {
-              camera = ref; // Uwaga: referencja do kamery używana później
+          <Camera
+            style={{
+              flex: 1,
+              justifyContent: 'flex-end',
+              alignItems: 'center'
             }}
+            ref={ref => {
+              camera = ref;
+            }}
+            type={type}
+            onCameraReady={() => { onCameraReady() }}
+            ratio={ratio}
+            whiteBalance={wb}
+            pictureSize={size}
+            flashMode={fm}
           >
+            <Animated.View
+              style={[
+                {
+                  position: 'absolute',
+                  left: 0,
+                  backgroundColor: "black",
+                  opacity: 0.5,
+                  paddingTop: 100,
+                  height: Dimensions.get("window").height,
+                  width: 240
+                },
+                {
+                  transform: [
+                    { translateX: animation.pos }
+                  ]
+                }]} >
+              <Text style={{
+                textAlign: 'center',
+                color: 'white',
+                fontSize: 25,
+              }}>SETTINGS</Text>
+              <ScrollView>
+                <RadioGroup title="Ratio" selected={ratio} tab={ratios} f={(x => { setRatio(x); getSize(x) })} />
+                <RadioGroup title="Size" selected={size} tab={sizeArr} f={(x => setSize(x))} />
+                <RadioGroup title="White Balance" selected={wbArr[wb]} tab={wbArr} f={(x => setWb(wbArr.indexOf(x)))} />
+                <RadioGroup title="Flash Mode" selected={fmArr[fm]} tab={fmArr} f={(x => setFm(fmArr.indexOf(x)))} />
+              </ScrollView>
+            </Animated.View>
             <View style={{ flexDirection: 'row', }} >
-              <CircleButton text="Sett" f={() => toggleCameraType()} width={70} height={70} />
-              <CircleButton text="Make" f={() => makePhoto()} width={90} height={90} />
               <CircleButton text="Flip" f={() => toggleCameraType()} width={70} height={70} />
+              <CircleButton text="Make" f={() => makePhoto()} width={90} height={90} />
+              <CircleButton text="Sett" f={() => toggle()} width={70} height={70} />
             </View>
           </Camera>
       }
     </View>
   );
+
 }
