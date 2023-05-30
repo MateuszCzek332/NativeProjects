@@ -1,7 +1,5 @@
-import React, { Component, useState, useEffect } from 'react';
-import { StyleSheet, View, Text, StatusBar, KeyboardAvoidingView, TextInput, Touchable, TouchableOpacity } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import * as Font from "expo-font";
 
 

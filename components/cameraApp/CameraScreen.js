@@ -1,11 +1,11 @@
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
-import { BackHandler } from "react-native"
 import { Dimensions } from "react-native";
+import { Animated } from "react-native";
+
+import CircleButton from './CircleButton';
 
 export default function CameraScreen({ route, navigation }) {
 
@@ -47,16 +47,9 @@ export default function CameraScreen({ route, navigation }) {
             }}
           >
             <View style={{ flexDirection: 'row', }} >
-              <TouchableOpacity style={{ backgroundColor: 'red', width: 70, height: 70, alignItems: 'center', justifyContent: 'center', borderRadius: 100 }} onPress={() => toggleCameraType()}>
-                <Text>Sett</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={{ backgroundColor: 'red', width: 90, height: 90, alignItems: 'center', justifyContent: 'center', borderRadius: 100, marginBottom: 20 }} onPress={() => makePhoto()}>
-                <Text>Make</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={{ backgroundColor: 'red', width: 70, height: 70, alignItems: 'center', justifyContent: 'center', borderRadius: 100 }} onPress={() => toggleCameraType()}>
-                <Text>Flip</Text>
-              </TouchableOpacity>
-
+              <CircleButton text="Sett" f={() => toggleCameraType()} width={70} height={70} />
+              <CircleButton text="Make" f={() => makePhoto()} width={90} height={90} />
+              <CircleButton text="Flip" f={() => toggleCameraType()} width={70} height={70} />
             </View>
           </Camera>
       }

@@ -1,15 +1,14 @@
-import { StyleSheet, Text, View, Image } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Text, View, Image } from 'react-native';
+import React from 'react';
 import * as MediaLibrary from "expo-media-library";
-import { Dimensions } from "react-native";
 import * as Sharing from 'expo-sharing';
+import { Dimensions } from "react-native";
 
 import MyButton from './MyButton';
 
 export default function BigPhoto({ route, navigation }) {
 
+  function refresh() { route.params.refresh() }
   const item = route.params.item;
   const width = Dimensions.get("window").width
   const height = Dimensions.get("window").height
@@ -20,7 +19,7 @@ export default function BigPhoto({ route, navigation }) {
 
   let deletePhoto = async () => {
     await MediaLibrary.deleteAssetsAsync([item.id]);
-    route.params.refresh()
+    refresh()
     navigation.navigate("galleryScreen")
   }
 

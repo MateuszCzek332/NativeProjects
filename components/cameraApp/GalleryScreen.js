@@ -1,7 +1,5 @@
-import { StyleSheet, Text, View, ScrollView, FlatList } from 'react-native';
+import { Text, View, FlatList } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as MediaLibrary from "expo-media-library";
 import { Dimensions } from "react-native";
 
