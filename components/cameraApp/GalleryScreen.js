@@ -74,7 +74,7 @@ export default function GalleryScreen({ navigation }) {
       <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
         <MyButton styles={{ backgroundColor: "red" }} text={"LAYOUT"} f={() => changeGrid()} />
         <MyButton styles={{ backgroundColor: "red" }} text={"DELETE"} f={() => deleteSelected()} />
-        <MyButton styles={{ backgroundColor: "red" }} text={"CAMERA"} f={() => navigation.navigate("cameraScreen")} />
+        <MyButton styles={{ backgroundColor: "red" }} text={"CAMERA"} f={() => navigation.navigate("cameraScreen", { refresh: () => refreshGallery() })} />
 
       </View>
       <View>
